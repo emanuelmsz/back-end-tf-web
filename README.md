@@ -1,14 +1,8 @@
+# back-end-tf-web
 
----
-
-```markdown
-# back-end-empresa-seguranca  
-Back-End do sistema de agendamento para empresa de segurança eletrônica  
-
-**Autores**  
-*(Adicione os nomes dos integrantes do grupo aqui)*  
-
----
+## Autores
+* Emanuel Miranda Souza
+* Sofia Alves Bandeira 
 
 ## **Banco de Dados**  
 A criação do banco de dados foi feita via **PostgreSQL** utilizando o serviço [Neon.tech](https://neon.tech).  
@@ -171,6 +165,3 @@ Autentica administradores para acesso ao painel.
    ```bash  
    npm start  
    ```  
-``` 
-
----
