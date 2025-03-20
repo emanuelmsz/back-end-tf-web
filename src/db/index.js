@@ -1,4 +1,5 @@
 import pkg from "pg";
+import { allowedNodeEnvironmentFlags } from "process";
 const { Pool } = pkg;
 
 // Configuração da conexão
@@ -9,7 +10,33 @@ async function connect() {
   return pool.connect();
 }
 
+
+async function selectServicos(concluido) {
+  const client = await connect();
+  try {
+    let query = "SELECT * FROM servico";
+    const params = [];
+    
+    // Adiciona WHERE apenas se "concluido" for booleano
+    if (concluido !== undefined) {
+      query += " WHERE concluido = $1";
+      params.push(concluido);
+    }
+    
+    query += " ORDER BY data_agendamento DESC";
+    const res = await client.query(query, params);
+    return res.rows;
+  } catch (error) {
+    console.error("Erro ao buscar serviços:", error);
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+
 // ---- OPERAÇÕES PARA A TABELA "SERVICO" ----
+/*
 async function selectServicos() {
   const client = await connect();
   try {
@@ -24,29 +51,46 @@ async function selectServicos() {
   }
 }
 
-async function insertServico(data) {
+async function selectServicos(concluido) {
   const client = await connect();
   try {
-    const query = `
-      INSERT INTO servico 
-        (nome_cliente, email_cliente, telefone_cliente, descricao) 
-      VALUES ($1, $2, $3, $4) 
-      RETURNING id
-    `;
+    const query = `SELECT * FROM servico WHERE concluido = $1 ORDER BY data_agendamento DESC`;
+    const res = await client.query(query, [concluido]);
+    return res.rows;
+  } catch (error) {
+    console.error("Erro ao buscar serviços:", error);
+    throw error;
+  } finally {
+    client.release(); // Libera a conexão de volta para o pool
+  }
+}
+*/
+
+async function selectServico(id) {
+  const client = await connect();
+  try {
+    const query = "SELECT * FROM servico WHERE id = $1";
+    const res = await client.query(query, [id]);
+    return res.rows[0]; // Retorna o serviço completo ou undefined
+  } catch (error) {
+    console.error("Erro ao buscar serviço:", error);
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+async function insertServico(data) {
+    const client = await connect();
+    const query = `INSERT INTO servico (nome_cliente, email_cliente, telefone_cliente, descricao) VALUES ($1, $2, $3, $4)`;
     const values = [
       data.nome_cliente,
       data.email_cliente,
       data.telefone_cliente,
       data.descricao
     ];
-    const res = await client.query(query, values);
-    return res.rows[0].id; // Retorna o ID do serviço inserido
-  } catch (error) {
-    console.error("Erro ao inserir serviço:", error);
-    throw error;
-  } finally {
+    await client.query(query, values);
     client.release();
-  }
 }
 
 async function updateServicoStatus(id, concluido) {
@@ -114,3 +158,16 @@ async function autenticarAdministrador(email, senha) {
   client.release();
   return res.rows[0];
 }
+
+
+export {
+  selectServicos,
+  selectServico,
+  insertServico,
+  updateServicoStatus,
+  deleteServico,
+  selectAdministradores,
+  insertAdministrador,
+  deleteAdministrador,
+  autenticarAdministrador
+};

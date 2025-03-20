@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import roteadorUsuario from "./routes/usuario.js";
+import roteadorServico from "./routes/servicos.js";
 import roteadorLogin from "./routes/login.js";
 
 dotenv.config();
@@ -13,7 +13,7 @@ const port = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-app.use(roteadorUsuario);
+app.use(roteadorServico);
 app.use(roteadorLogin);
 
 

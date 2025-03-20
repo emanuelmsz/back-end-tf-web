@@ -1,9 +1,29 @@
 {
+  "name": "back-end-tf-web",
+  "version": "1.0.0",
+  "description": "backend para o trabalho final",
+  "homepage": "https://github.com/emanuelmsz/back-end-tf-web#readme",
+  "bugs": {
+    "url": "https://github.com/emanuelmsz/back-end-tf-web/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emanuelmsz/back-end-tf-web.git"
+  },
+  "license": "ISC",
+  "author": "emanuel miranda, sofia bandeira, eduardo sabino",
+  "type": "module",
+  "main": "/src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "/src/index.js"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express.js": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.9",
     "pg": "^8.14.1"
   }
 }

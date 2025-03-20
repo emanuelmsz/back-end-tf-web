@@ -1,6 +1,6 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import { autenticarUsuario } from "../db/index.js";
+import { autenticarAdministrador } from "../db/index.js";
 import verificarAutenticacao from "../middlewares/autenticacao.js";
 
 const router = Router();
@@ -9,7 +9,7 @@ router.post("/login", async (req, res) => {
   console.log("Rota POST /login solicitada");
   try {
     console.log(req.body.email);
-    const usuario = await autenticarUsuario(req.body.email, req.body.senha);
+    const usuario = await autenticarAdministrador(req.body.email, req.body.senha);
     if (usuario !== undefined) {
       const token = jwt.sign({ user: usuario.id, acesso: usuario.acesso }, process.env.SECRET, {
         expiresIn: 30000,

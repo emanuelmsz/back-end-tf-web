@@ -58,7 +58,7 @@ router.put("/servico/:id/concluir", verificarAutenticacao, async (req, res) => {
 router.delete("/servico/:id", verificarAutenticacao, async (req, res) => {
   try {
     await deleteServico(req.params.id);
-    res.status(204).send();
+    res.json({ message: "Serviço deletado com sucesso!" });
   } catch (error) {
     res.status(500).json({ message: "Erro ao excluir serviço." });
   }
@@ -68,9 +68,22 @@ router.delete("/servico/:id", verificarAutenticacao, async (req, res) => {
 router.get("/servicos/filtrar", verificarAutenticacao, async (req, res) => {
   try {
     const { status } = req.query;
-    const servicos = await selectServicos(status === 'concluido');
+
+    // Validação do parâmetro "status"
+    let concluido;
+    if (status === "concluido" || status === "true") {
+      concluido = true;
+    } else if (status === "pendente" || status === "false") {
+      concluido = false;
+    } else if (status) {
+      return res.status(400).json({ message: "Parâmetro 'status' inválido." });
+    }
+
+    // Chamada à função selectServicos
+    const servicos = await selectServicos(concluido);
     res.json(servicos);
   } catch (error) {
+    console.error("Erro ao filtrar serviços:", error); // Log detalhado
     res.status(500).json({ message: "Erro ao filtrar serviços." });
   }
 });
