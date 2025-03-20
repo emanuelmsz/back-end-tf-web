@@ -13,7 +13,7 @@
   "license": "ISC",
   "author": "emanuel miranda, sofia bandeira, eduardo sabino",
   "type": "module",
-  "main": "src/index.js",
+  "main": "/src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "src/index.js"
