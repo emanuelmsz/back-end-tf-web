@@ -19,7 +19,7 @@ app.use(roteadorLogin);
 
 app.get("/", (req, res) => {
   res.json({
-    message: "API para CRUD usuario: github.com/emanuelmsz",
+    message: "BACKEND p/trabalho final: github.com/emanuelmsz/back-end-tf-web",
   });
 });
 
